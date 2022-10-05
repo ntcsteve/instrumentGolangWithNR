@@ -81,7 +81,7 @@ func Hello(name string) (string, error) {
 	message := fmt.Sprintf(randomFormat(), name)
 
 	// Workshop > Custom attributes by using this method in a transaction
-	//
+	// https://docs.newrelic.com/docs/apm/agents/go-agent/api-guides/guide-using-go-agent-api#metadata
 	nrTxnTracer.AddAttribute("message", message)
 	return message, nil
 }
@@ -90,7 +90,8 @@ func Hello(name string) (string, error) {
 // The returned message is selected at random.
 func randomFormat() string {
 
-	// Monitor a transaction
+	// Workshop > Monitor a transaction
+	// https://docs.newrelic.com/docs/apm/agents/go-agent/instrumentation/instrument-go-transactions/#go-txn
 	nrTxnTracer := nrApp.StartTransaction("randomFormat")
 	defer nrTxnTracer.End()
 

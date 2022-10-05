@@ -25,7 +25,8 @@ func main() {
 
 	app.WaitForConnection(5 * time.Second)
 
-	// Create a logWriter, then pass it to the log.Logger
+	// Workshop - Create a logWriter, then pass it to the log.Logger
+	// https://docs.newrelic.com/docs/logs/logs-context/configure-logs-context-go/#1-standard-library-log
 	writer := logWriter.New(os.Stdout, app)
 	logger := log.New(&writer, "Background:  ", log.Default().Flags())
 
