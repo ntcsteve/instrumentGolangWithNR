@@ -10,6 +10,11 @@ import (
 	"github.com/newrelic/go-agent/v3/newrelic"
 )
 
+// init sets initial values for variables used in the function.
+func init() {
+	rand.Seed(time.Now().UnixNano())
+}
+
 func main() {
 	app, err := newrelic.NewApplication(
 		newrelic.ConfigAppName(os.Getenv("APP_NAME")),
@@ -35,7 +40,7 @@ func main() {
 	logger.Print("Hello world!")
 
 	txnName := "logsInContext Sample Transaction"
-	txn := app.StartTransaction(txnName)
+	txn := app.StartTransaction("logsInContext")
 
 	// Always create a new log object in order to avoid changing the context of the logger for
 	// other threads that may be logging outside of this transaction
@@ -43,7 +48,7 @@ func main() {
 	txnLogger.Printf("In transaction %s.", txnName)
 
 	// Random sleep to simulate delays
-	randomDelay := rand.Intn(40)
+	randomDelay := rand.Intn(300)
 	time.Sleep(time.Duration(randomDelay) * time.Millisecond)
 
 	txnLogger.Printf("Ending transaction %s.", txnName)
