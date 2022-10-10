@@ -38,7 +38,7 @@ func main() {
 	nrApp, nrErr = newrelic.NewApplication(
 		newrelic.ConfigAppName(os.Getenv("APP_NAME")),
 		newrelic.ConfigLicense(os.Getenv("NEW_RELIC_LICENSE_KEY")),
-		newrelic.ConfigDebugLogger(os.Stdout),
+		// newrelic.ConfigDebugLogger(os.Stdout),
 	)
 
 	// If an application could not be created then err will reveal why.
@@ -147,12 +147,13 @@ func addAlbum(alb Album) (int64, error) {
 	// and query methods on sql.DB, sql.Conn, sql.Tx, and sql.Stmt.
 	// https://pkg.go.dev/github.com/newrelic/go-agent/v3/integrations/nrmysql
 	txn := nrApp.StartTransaction("mysqlQuery")
+
 	ctx := newrelic.NewContext(context.Background(), txn)
 	row := db.QueryRowContext(ctx, "INSERT INTO album (title, artist, price) VALUES (?, ?, ?)")
 	row.Scan()
 
 	// Random sleep to simulate delays
-	randomDelay := rand.Intn(10)
+	randomDelay := rand.Intn(200)
 	time.Sleep(time.Duration(randomDelay) * time.Millisecond)
 
 	txn.End()

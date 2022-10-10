@@ -21,7 +21,7 @@ func main() {
 	nrApp, nrErr = newrelic.NewApplication(
 		newrelic.ConfigAppName(os.Getenv("APP_NAME")),
 		newrelic.ConfigLicense(os.Getenv("NEW_RELIC_LICENSE_KEY")),
-		// newrelic.ConfigDebugLogger(os.Stdout),
+		newrelic.ConfigDebugLogger(os.Stdout),
 
 		// Workshop > Additional configuration via a config function
 		// https://docs.newrelic.com/docs/apm/agents/go-agent/configuration/go-agent-configuration
