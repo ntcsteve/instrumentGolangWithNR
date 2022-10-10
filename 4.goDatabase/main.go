@@ -46,7 +46,7 @@ func main() {
 		fmt.Println("unable to start NR instrumentation - ", nrErr)
 	}
 
-	// Wait for go-agent to avoid data loss
+	// Not necessary for monitoring a production application with a lot of data.
 	nrApp.WaitForConnection(5 * time.Second)
 
 	// Capture connection properties.
@@ -142,7 +142,7 @@ func albumByID(id int64) (Album, error) {
 func addAlbum(alb Album) (int64, error) {
 	result, err := db.Exec("INSERT INTO album (title, artist, price) VALUES (?, ?, ?)", alb.Title, alb.Artist, alb.Price)
 
-	// Workshop > Provide a context containing a newrelic.Transaction to all exec
+	// Workshop > Provide a context containing a newrelic. Transaction to all exec
 	// and query methods on sql.DB, sql.Conn, sql.Tx, and sql.Stmt.
 	// https://pkg.go.dev/github.com/newrelic/go-agent/v3/integrations/nrmysql
 	txn := nrApp.StartTransaction("mysqlQuery")

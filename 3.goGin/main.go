@@ -47,7 +47,7 @@ func main() {
 		fmt.Println("unable to start NR instrumentation - ", nrErr)
 	}
 
-	// Wait for go-agent to avoid data loss
+	// Not necessary for monitoring a production application with a lot of data.
 	nrApp.WaitForConnection(5 * time.Second)
 
 	router := gin.Default()

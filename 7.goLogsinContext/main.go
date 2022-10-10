@@ -23,6 +23,7 @@ func main() {
 		panic(err)
 	}
 
+	// Not necessary for monitoring a production application with a lot of data.
 	app.WaitForConnection(5 * time.Second)
 
 	// Workshop - Create a logWriter, then pass it to the log.Logger
@@ -47,5 +48,7 @@ func main() {
 	txn.End()
 
 	logger.Print("Goodbye!")
+
+	// Wait for shut down to ensure data gets flushed
 	app.Shutdown(10 * time.Second)
 }
