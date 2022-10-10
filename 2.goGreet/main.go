@@ -107,13 +107,6 @@ func randomFormat() string {
 	randomDelayInner := rand.Intn(80)
 	time.Sleep(time.Duration(randomDelayInner) * time.Microsecond)
 
-	// Workshop > Create a custom metric
-	// https://docs.newrelic.com/docs/apm/agents/go-agent/instrumentation/create-custom-metrics-go/#create
-	nrApp.RecordCustomMetric(
-		"randomDelayInner", // Random sleep to simulate delays
-		randomDelayInner,   // Value
-	)
-
 	// A slice of message formats.
 	formats := []string{
 		"Hi, %v. Welcome!",

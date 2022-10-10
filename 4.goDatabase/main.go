@@ -52,11 +52,12 @@ func main() {
 	// Capture connection properties.
 	cfg := mysql.Config{
 		User:   "root",
-		Passwd: "Root@1234",
+		Passwd: "",
 		Net:    "tcp",
 		Addr:   "127.0.0.1:3306",
 		DBName: "recordings",
 	}
+
 	// Get a database handle.
 	var err error
 	db, err = sql.Open("nrmysql", cfg.FormatDSN())
