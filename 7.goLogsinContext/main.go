@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"math/rand"
 	"os"
 	"time"
 
@@ -41,8 +42,9 @@ func main() {
 	txnLogger := log.New(writer.WithTransaction(txn), "Transaction: ", log.Default().Flags())
 	txnLogger.Printf("In transaction %s.", txnName)
 
-	// simulate doing something
-	time.Sleep(time.Microsecond * 100)
+	// Random sleep to simulate delays
+	randomDelay := rand.Intn(40)
+	time.Sleep(time.Duration(randomDelay) * time.Millisecond)
 
 	txnLogger.Printf("Ending transaction %s.", txnName)
 	txn.End()
