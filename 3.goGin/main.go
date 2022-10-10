@@ -39,7 +39,7 @@ func main() {
 	nrApp, nrErr = newrelic.NewApplication(
 		newrelic.ConfigAppName(os.Getenv("APP_NAME")),
 		newrelic.ConfigLicense(os.Getenv("NEW_RELIC_LICENSE_KEY")),
-		newrelic.ConfigDebugLogger(os.Stdout),
+		// newrelic.ConfigDebugLogger(os.Stdout),
 	)
 
 	// If an application could not be created then err will reveal why.
