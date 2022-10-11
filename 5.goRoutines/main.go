@@ -39,8 +39,8 @@ func async(w http.ResponseWriter, r *http.Request) {
 			defer txn.StartSegment("goroutine" + strconv.Itoa(i)).End()
 			println("goRoutine " + strconv.Itoa(i))
 
-			randomDelayInner := rand.Intn(500)
-			time.Sleep(time.Duration(randomDelayInner) * time.Millisecond)
+			randomDelay := rand.Intn(500)
+			time.Sleep(time.Duration(randomDelay) * time.Millisecond)
 		}(txn.NewGoroutine())
 	}
 
