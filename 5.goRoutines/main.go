@@ -21,22 +21,31 @@ func init() {
 }
 
 func async(w http.ResponseWriter, r *http.Request) {
+	// To access the transaction in your handler, use the newrelic.FromContext API.
 	txn := newrelic.FromContext(r.Context())
+	// This WaitGroup is used to wait for all the goroutines to finish.
 	wg := &sync.WaitGroup{}
+	println("goRoutines created!")
 
 	for i := 1; i < 9; i++ {
 		wg.Add(1)
 		i := i
-		println(i)
+
+		// Workshop > trace asynchronous applications
+		// The Transaction.NewGoroutine() Transaction method allows
+		// transactions to create segments in multiple goroutines.
+		// https://docs.newrelic.com/docs/apm/agents/go-agent/features/trace-asynchronous-applications
 		go func(txn *newrelic.Transaction) {
 			defer wg.Done()
 			defer txn.StartSegment("goroutine" + strconv.Itoa(i)).End()
+			println("goroutine" + strconv.Itoa(i))
 
-			randomDelayInner := rand.Intn(800)
+			randomDelayInner := rand.Intn(500)
 			time.Sleep(time.Duration(randomDelayInner) * time.Millisecond)
 		}(txn.NewGoroutine())
 	}
 
+	// Ensure the WaitGroup is done
 	segment := txn.StartSegment("WaitGroup")
 	wg.Wait()
 	segment.End()
@@ -44,22 +53,23 @@ func async(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	app, err := newrelic.NewApplication(
+	nrApp, nrErr := newrelic.NewApplication(
 		newrelic.ConfigAppName(os.Getenv("APP_NAME")),
 		newrelic.ConfigLicense(os.Getenv("NEW_RELIC_LICENSE_KEY")),
 		// newrelic.ConfigDebugLogger(os.Stdout),
 	)
-	if err != nil {
-		fmt.Println(err)
+	if nrErr != nil {
+		fmt.Println(nrErr)
 		os.Exit(1)
 	}
 
 	// Wait for shut down to ensure data gets flushed
-	app.WaitForConnection(5 * time.Second)
+	nrApp.WaitForConnection(5 * time.Second)
 
-	http.HandleFunc(newrelic.WrapHandleFunc(app, "/async", async))
+	// ListenAndServe starts an HTTP server with a given address and handler
+	http.HandleFunc(newrelic.WrapHandleFunc(nrApp, "/async", async))
 	http.ListenAndServe(":8000", nil)
 
 	// Wait for shut down to ensure data gets flushed
-	app.Shutdown(5 * time.Second)
+	nrApp.Shutdown(5 * time.Second)
 }
