@@ -32,13 +32,12 @@ func async(w http.ResponseWriter, r *http.Request) {
 		i := i
 
 		// Workshop > trace asynchronous applications
-		// The Transaction.NewGoroutine() Transaction method allows
-		// transactions to create segments in multiple goroutines.
+		// The Transaction.NewGoroutine() allows transactions to create segments in multiple goroutines.
 		// https://docs.newrelic.com/docs/apm/agents/go-agent/features/trace-asynchronous-applications
 		go func(txn *newrelic.Transaction) {
 			defer wg.Done()
 			defer txn.StartSegment("goroutine" + strconv.Itoa(i)).End()
-			println("goroutine" + strconv.Itoa(i))
+			println("goRoutine " + strconv.Itoa(i))
 
 			randomDelayInner := rand.Intn(500)
 			time.Sleep(time.Duration(randomDelayInner) * time.Millisecond)
