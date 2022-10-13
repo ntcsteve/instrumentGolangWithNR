@@ -99,7 +99,7 @@ func main() {
 		grpc.UnaryInterceptor(nrgrpc.UnaryServerInterceptor(app)),
 		grpc.StreamInterceptor(nrgrpc.StreamServerInterceptor(app)),
 	)
-	// sampleapp.RegisterSampleApplicationServer(grpcServer, &Server{})
+	sampleapp.RegisterSampleApplicationServer(grpcServer, &Server{})
 	grpcServer.Serve(lis)
 
 }

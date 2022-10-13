@@ -8,7 +8,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	// Workshop > nrgin integration package
-
+	"github.com/newrelic/go-agent/v3/integrations/nrgin"
 	"github.com/newrelic/go-agent/v3/newrelic"
 )
 
@@ -55,6 +55,7 @@ func main() {
 
 	// Workshop > Package nrgin instruments https://github.com/gin-gonic/gin applications.
 	// https://pkg.go.dev/github.com/newrelic/go-agent/v3/integrations/nrgin#section-readme
+	router.Use(nrgin.Middleware(nrApp))
 
 	router.GET("/games", getgames)
 	router.GET("/games/:id", getgameByID)

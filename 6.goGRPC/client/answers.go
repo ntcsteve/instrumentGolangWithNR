@@ -8,7 +8,7 @@ import (
 	"time"
 
 	// Workshop > nrgrpc integration package
-
+	"github.com/newrelic/go-agent/v3/integrations/nrgrpc"
 	sampleapp "github.com/newrelic/go-agent/v3/integrations/nrgrpc/example/sampleapp"
 	newrelic "github.com/newrelic/go-agent/v3/newrelic"
 	"google.golang.org/grpc"
@@ -107,8 +107,8 @@ func main() {
 		grpc.WithInsecure(),
 
 		// Workshop ?> Add the New Relic gRPC client instrumentation
-		// grpc.WithUnaryInterceptor(nrgrpc.UnaryClientInterceptor),
-		// grpc.WithStreamInterceptor(nrgrpc.StreamClientInterceptor),
+		grpc.WithUnaryInterceptor(nrgrpc.UnaryClientInterceptor),
+		grpc.WithStreamInterceptor(nrgrpc.StreamClientInterceptor),
 	)
 	if err != nil {
 		panic(err)

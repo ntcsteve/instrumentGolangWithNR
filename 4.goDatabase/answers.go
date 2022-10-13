@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"log"
@@ -145,12 +146,17 @@ func addAlbum(alb Album) (int64, error) {
 	// Workshop > Provide a context containing a newrelic. Transaction to all exec
 	// and query methods on sql.DB, sql.Conn, sql.Tx, and sql.Stmt.
 	// https://pkg.go.dev/github.com/newrelic/go-agent/v3/integrations/nrmysql
+	txn := nrApp.StartTransaction("mysqlQuery")
+	ctx := newrelic.NewContext(context.Background(), txn)
+	row := db.QueryRowContext(ctx, "INSERT INTO album (title, artist, price) VALUES (?, ?, ?)")
+	row.Scan()
 
 	// Random sleep to simulate delays
 	randomDelay := rand.Intn(200)
 	time.Sleep(time.Duration(randomDelay) * time.Millisecond)
 
 	// Workshop > End the DB transaction.
+	txn.End()
 
 	if err != nil {
 		return 0, fmt.Errorf("addAlbum: %v", err)

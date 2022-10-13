@@ -66,8 +66,8 @@ func main() {
 	nrApp.WaitForConnection(5 * time.Second)
 
 	// Workshop > ListenAndServe starts an HTTP server with a given address and handler
-	// http.HandleFunc(newrelic.WrapHandleFunc(nrApp, "/async", async))
-	// http.ListenAndServe(":8000", nil)
+	http.HandleFunc(newrelic.WrapHandleFunc(nrApp, "/async", async))
+	http.ListenAndServe(":8000", nil)
 
 	// Wait for shut down to ensure data gets flushed
 	nrApp.Shutdown(5 * time.Second)

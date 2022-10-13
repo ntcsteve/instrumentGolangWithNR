@@ -82,7 +82,7 @@ func Hello(name string) (string, error) {
 
 	// Workshop > Custom attributes by using this method in a transaction
 	// https://docs.newrelic.com/docs/apm/agents/go-agent/api-guides/guide-using-go-agent-api#metadata
-
+	nrTxnTracer.AddAttribute("message", message)
 	return message, nil
 }
 
@@ -92,6 +92,8 @@ func randomFormat() string {
 
 	// Workshop > Monitor a transaction
 	// https://docs.newrelic.com/docs/apm/agents/go-agent/instrumentation/instrument-go-transactions/#go-txn
+	nrTxnTracer := nrApp.StartTransaction("randomFormat")
+	defer nrTxnTracer.End()
 
 	// Random sleep to simulate delays
 	randomDelayOuter := rand.Intn(40)
@@ -99,6 +101,7 @@ func randomFormat() string {
 
 	// Workshop > Create a segment
 	// https://docs.newrelic.com/docs/apm/agents/go-agent/instrumentation/instrument-go-segments
+	nrSegment := nrTxnTracer.StartSegment("Formats")
 
 	// Random sleep to simulate delays
 	randomDelayInner := rand.Intn(80)
@@ -116,6 +119,7 @@ func randomFormat() string {
 
 	// Workshop > End a segment
 	// https://docs.newrelic.com/docs/apm/agents/go-agent/instrumentation/instrument-go-segments
+	nrSegment.End()
 
 	// Return a randomly selected message format by specifying
 	// a random index for the slice of formats.

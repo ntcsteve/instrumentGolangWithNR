@@ -23,7 +23,7 @@ func main() {
 
 		// Workshop > Let the agent collect, and forward logs automatically
 		// https://docs.newrelic.com/docs/logs/logs-context/configure-logs-context-go/
-		newrelic.ConfigAppLogForwardingEnabled(false),
+		newrelic.ConfigAppLogForwardingEnabled(true),
 	)
 	if err != nil {
 		panic(err)
