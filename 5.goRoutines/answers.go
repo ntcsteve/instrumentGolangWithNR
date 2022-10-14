@@ -5,6 +5,7 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"math/rand"
 	"net/http"
 	"os"
@@ -18,6 +19,23 @@ import (
 // init sets initial values for variables used in the function.
 func init() {
 	rand.Seed(time.Now().UnixNano())
+}
+
+// Workshop > You may track errors using the Transaction.NoticeError method.
+// The easiest way to get started with NoticeError is to use errors based on Go's standard error interface.
+// https://github.com/newrelic/go-agent/blob/master/GUIDE.md#error-reporting
+func noticeErrorWithAttributes(w http.ResponseWriter, r *http.Request) {
+	io.WriteString(w, "noticing an error")
+
+	txn := newrelic.FromContext(r.Context())
+	txn.NoticeError(newrelic.Error{
+		Message: "uh oh. something went very wrong",
+		Class:   "errors are aggregated by class",
+		Attributes: map[string]interface{}{
+			"important_number": 97232,
+			"relevant_string":  "zap",
+		},
+	})
 }
 
 func async(w http.ResponseWriter, r *http.Request) {
