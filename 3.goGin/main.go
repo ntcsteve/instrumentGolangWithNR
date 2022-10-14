@@ -8,7 +8,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	// Workshop > nrgin integration package
-
+	// "github.com/newrelic/go-agent/v3/integrations/nrgin"
 	"github.com/newrelic/go-agent/v3/newrelic"
 )
 
