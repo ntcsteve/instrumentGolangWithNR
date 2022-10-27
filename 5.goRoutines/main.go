@@ -82,6 +82,7 @@ func main() {
 
 	// Workshop > ListenAndServe starts an HTTP server with a given address and handler
 	// http.HandleFunc(newrelic.WrapHandleFunc(nrApp, "/async", async))
+	// http.HandleFunc(newrelic.WrapHandleFunc(nrApp, "/noticeErrorWithAttributes", noticeErrorWithAttributes))
 	// http.ListenAndServe(":8000", nil)
 
 	// Wait for shut down to ensure data gets flushed
