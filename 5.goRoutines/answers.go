@@ -1,6 +1,3 @@
-// Copyright 2020 New Relic Corporation. All rights reserved.
-// SPDX-License-Identifier: Apache-2.0
-
 package main
 
 import (
@@ -33,7 +30,7 @@ func noticeErrorWithAttributes(w http.ResponseWriter, r *http.Request) {
 		Class:   "errors are aggregated by class",
 		Attributes: map[string]interface{}{
 			"important_number": 97232,
-			"relevant_string":  "zap",
+			"relevant_string":  "classError",
 		},
 	})
 }
@@ -85,6 +82,7 @@ func main() {
 
 	// Workshop > ListenAndServe starts an HTTP server with a given address and handler
 	http.HandleFunc(newrelic.WrapHandleFunc(nrApp, "/async", async))
+	http.HandleFunc(newrelic.WrapHandleFunc(nrApp, "/notice_error_with_attributes", noticeErrorWithAttributes))
 	http.ListenAndServe(":8000", nil)
 
 	// Wait for shut down to ensure data gets flushed
