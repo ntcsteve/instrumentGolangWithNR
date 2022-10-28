@@ -22,7 +22,7 @@ func init() {
 // The easiest way to get started with NoticeError is to use errors based on Go's standard error interface.
 // https://github.com/newrelic/go-agent/blob/master/GUIDE.md#error-reporting
 func noticeErrorWithAttributes(w http.ResponseWriter, r *http.Request) {
-	io.WriteString(w, "noticing an error")
+	io.WriteString(w, "noticing an error!")
 
 	txn := newrelic.FromContext(r.Context())
 	txn.NoticeError(newrelic.Error{

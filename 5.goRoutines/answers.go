@@ -22,7 +22,7 @@ func init() {
 // The easiest way to get started with NoticeError is to use errors based on Go's standard error interface.
 // https://github.com/newrelic/go-agent/blob/master/GUIDE.md#error-reporting
 func noticeErrorWithAttributes(w http.ResponseWriter, r *http.Request) {
-	io.WriteString(w, "noticing an error")
+	io.WriteString(w, "noticing an error!")
 
 	txn := newrelic.FromContext(r.Context())
 	txn.NoticeError(newrelic.Error{
@@ -84,7 +84,7 @@ func main() {
 	// Workshop > ListenAndServe starts an HTTP server with a given address and handler
 	http.HandleFunc(newrelic.WrapHandleFunc(nrApp, "/error", noticeErrorWithAttributes))
 	http.HandleFunc(newrelic.WrapHandleFunc(nrApp, "/async", async))
-	http.ListenAndServe("localhost:8080", nil)
+	http.ListenAndServe("localhost:8000", nil)
 
 	// Wait for shut down to ensure data gets flushed
 	nrApp.Shutdown(5 * time.Second)
