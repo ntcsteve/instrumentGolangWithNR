@@ -33,6 +33,7 @@ func noticeErrorWithAttributes(w http.ResponseWriter, r *http.Request) {
 			"relevant_string":  "classError",
 		},
 	})
+	println("Oops, there is an error!")
 }
 
 func async(w http.ResponseWriter, r *http.Request) {
@@ -63,7 +64,7 @@ func async(w http.ResponseWriter, r *http.Request) {
 	segment := txn.StartSegment("WaitGroup")
 	wg.Wait()
 	segment.End()
-	w.Write([]byte("success!"))
+	w.Write([]byte("goRoutines success!"))
 }
 
 func main() {
@@ -81,8 +82,8 @@ func main() {
 	nrApp.WaitForConnection(5 * time.Second)
 
 	// Workshop > ListenAndServe starts an HTTP server with a given address and handler
+	http.HandleFunc(newrelic.WrapHandleFunc(nrApp, "/error", noticeErrorWithAttributes))
 	http.HandleFunc(newrelic.WrapHandleFunc(nrApp, "/async", async))
-	http.HandleFunc(newrelic.WrapHandleFunc(nrApp, "/notice_error_with_attributes", noticeErrorWithAttributes))
 	http.ListenAndServe(":8000", nil)
 
 	// Wait for shut down to ensure data gets flushed
