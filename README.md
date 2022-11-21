@@ -49,7 +49,7 @@ Follow the instructions as described [here](https://docs.newrelic.com/docs/apis/
 
 ## DevRel Workshop - Golang Instrumentation with New Relic
 
-The link to the Instruqt workshop is [here](https://play.instruqt.com/newrelic/invite/s5kyxbycvqqp).
+The link to the Instruqt workshop is [here](https://play.instruqt.com/newrelic/invite/s5kyxbycvqqp). You can also see the sample code used for each app for reference.
 
 ---
 
