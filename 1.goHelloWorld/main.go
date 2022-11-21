@@ -46,6 +46,7 @@ func main() {
 func print() {
 	// Workshop > Monitor a Golang transaction
 	// https://docs.newrelic.com/docs/apm/agents/go-agent/instrumentation/instrument-go-transactions/#go-txn
+	// Put your code here
 
 	fmt.Println("Hello world! Welcome to your first instrumented Golang App!")
 }

@@ -55,6 +55,7 @@ func main() {
 
 	// Workshop > Package nrgin instruments https://github.com/gin-gonic/gin applications.
 	// https://pkg.go.dev/github.com/newrelic/go-agent/v3/integrations/nrgin#section-readme
+	// Put your code here
 
 	router.GET("/games", getgames)
 	router.GET("/games/:id", getgameByID)
